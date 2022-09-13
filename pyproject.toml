@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "christinanissi"
+version = "0.1.0"
+description = ""
+authors = []
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+django = ">=2.2"
+djangoql = "*"
+django-extensions = "*"
+django-redis = "*"
+psycopg2-binary = "*"
+pytest = "*"
+pytest-cov = "*"
+sentry-sdk = "*"
+shortuuid = "*"
+unittest-xml-reporting = "*"
+uwsgi = "*"
+werkzeug = "*"
+whitenoise = "*"
+
+[tool.poetry.dev-dependencies]
+ipython = "*"
+bpython = "*"
+pudb = "*"
+django-stubs = "*"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

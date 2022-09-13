@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "override me")
 DEBUG = True if os.getenv("NODEBUG") is None else False
 
 ALLOWED_HOSTS = (
-    ["*"] if os.getenv("NODEBUG") is None else os.getenv("HOSTS", "[.localhost.com]")
+    ["*"] if os.getenv("NODEBUG") is None else [os.getenv("HOSTS", ".localhost.com")]
 )
 
 DEFAULT_FROM_EMAIL = os.getenv("EMAIL", "example@example.com")

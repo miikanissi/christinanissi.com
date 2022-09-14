@@ -1,7 +1,8 @@
-name: pre-commit
+name: Django CI
 
 on:
   pull_request:
+    branches: [master]
   push:
     branches: [master]
 
@@ -9,6 +10,14 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-      - uses: pre-commit/action@v3.0.0
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.create false
+          poetry install --no-interaction --no-root --no-dev
+      - uses: pre-commit/action@v2.0.3

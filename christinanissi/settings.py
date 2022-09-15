@@ -70,10 +70,12 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django_extensions",
     "djangoql",
+    "whitenoise.runserver_nostatic",
+    "taggit",
+    "django_summernote",
     "main",
 ]
 
@@ -113,8 +115,6 @@ TEMPLATE_STRING_IF_INVALID = "VARIABLE UNDEFINED: %s"
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 WSGI_APPLICATION = "christinanissi.wsgi.application"
-
-AUTH_USER_MODEL = "main.User"
 
 # Adjust this to taste.
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
@@ -215,3 +215,5 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "_static"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

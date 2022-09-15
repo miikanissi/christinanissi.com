@@ -10,8 +10,6 @@ services:
     ports:
       - ${DB_PORT}:${DB_PORT}
     environment:
-      # - POSTGRES_DB=${DB_NAME}
-      # - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - "./misc/dbdata:/var/lib/postgresql/data"
@@ -21,7 +19,8 @@ services:
       interval: 5s
   web:
     command: >
-      bash -c "./manage.py migrate;
+      bash -c "./manage.py makemigrations;
+               ./manage.py migrate;
                ./manage.py createsuperuser --no-input;
                while :;
                do exec ./manage.py runserver_plus 0.0.0.0:8000;

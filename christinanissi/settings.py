@@ -10,32 +10,52 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 import os
-import re
 from pathlib import Path
+from typing import List
 
+import environ
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+# set cast default values
+env = environ.Env(
+    SECRET_KEY=(str, "secret123"),
+    ALLOWED_HOSTS=(list, []),
+    DEBUG=(bool, True),
+    DJANGO_LOG_LEVEL=(str, "INFO"),
+    DB_NAME=(str, "postgres"),
+    DB_USER=(str, "postgres"),
+    DB_PASSWORD=(str, "12345"),
+    DB_HOST=(str, "localhost"),
+    DB_PORT=(str, "5432"),
+    EMAIL=(str, "example@example.com"),
+    EMAIL_BACKEND=(str, "django.core.mail.backends.console.EmailBackend"),
+    EMAIL_HOST=(str, "localhost"),
+    EMAIL_HOST_PORT=(int, 25),
+    EMAIL_HOST_USER=(str, ""),
+    EMAIL_HOST_PASSWORD=(str, ""),
+    IN_DOCKER=(bool, False),
+    REDIS=(str, "redis://127.0.0.1:6379/1"),
+    ENVIRONMENT=(str, "local"),
+    SENTRY_DSN=(str, "https://examplePublicKey@o0.ingest.sentry.io/0"),
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Read environment variables from .env
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "override me")
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.getenv("NODEBUG") is None else False
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = (
-    ["*"] if os.getenv("NODEBUG") is None else [os.getenv("HOSTS", ".localhost.com")]
-)
+ALLOWED_HOSTS: List[str] = env("ALLOWED_HOSTS")
 
-DEFAULT_FROM_EMAIL = os.getenv("EMAIL", "example@example.com")
-
-# TODO: Add environment variables for this, "production", "staging".
-ENVIRONMENT = os.getenv("ENVIRONMENT", "local")
+DEFAULT_FROM_EMAIL = env("EMAIL")
 
 # Sometimes my CSRF protection would fail locally due to misdetection of HTTPS as HTTPS.
 # If you don't need this, you can remove it, but it shouldn't hurt anything.
@@ -102,22 +122,22 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 # Keep connections in the pool for an hour.
 CONN_MAX_AGE = 60 * 60
 
-if os.getenv("IN_DOCKER"):
+if env("IN_DOCKER"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "postgres",
-            "USER": "postgres",
-            "PASSWORD": "password",
-            "HOST": "db",
-            "PORT": 5432,
+            "NAME": env("DB_NAME"),
+            "USER": env("DB_USER"),
+            "PASSWORD": env("DB_PASSWORD"),
+            "HOST": env("DB_HOST"),
+            "PORT": env("DB_PORT"),
         }
     }
 
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://redis/1",
+            "LOCATION": env("REDIS"),
             "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
     }
@@ -132,15 +152,11 @@ else:
         }
     }
 
-if os.getenv("EMAIL_URL", ""):
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_HOST, EMAIL_PORT = re.match(  # type: ignore
-        r"^email://(?P<username>.*)\:(?P<password>.*?)\@(?P<host>.*?)\:(?P<port>\d+)\/?$",
-        os.getenv("EMAIL_URL", ""),
-    ).groups()
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
+EMAIL_BACKEND = env("EMAIL_BACKEND")
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_PORT = env("EMAIL_HOST_PORT")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -170,9 +186,9 @@ USE_TZ = True
 SITE_ID = 1
 
 sentry_sdk.init(
-    dsn=os.getenv("SENTRY_DSN"),
+    dsn=env("SENTRY_DSN"),
     traces_sample_rate=0.2,
-    environment=ENVIRONMENT,
+    environment=env("ENVIRONMENT"),
     integrations=[DjangoIntegration()],
 )
 
@@ -187,7 +203,7 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["console"],
-            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "level": env("DJANGO_LOG_LEVEL"),
         }
     },
 }

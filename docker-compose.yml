@@ -19,8 +19,8 @@ services:
       interval: 5s
   web:
     command: >
-      bash -c "./manage.py makemigrations;
-               ./manage.py migrate;
+      bash -c "./manage.py makemigrations --no-input;
+               ./manage.py migrate --no-input;
                ./manage.py createsuperuser --no-input;
                while :;
                do exec ./manage.py runserver_plus 0.0.0.0:8000;

@@ -217,3 +217,32 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+SUMMERNOTE_CONFIG = {
+    "iframe": True,
+    "summernote": {
+        "width": "100%",
+        "height": "720",
+        "toolbar": [
+            ["style", ["style"]],
+            [
+                "font",
+                [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "superscript",
+                    "subscript",
+                    "clear",
+                ],
+            ],
+            ["fontsize", ["fontsize"]],
+            ["color", ["color"]],
+            ["para", ["ul", "ol", "paragraph"]],
+            ["table", ["table"]],
+            ["insert", ["link", "picture", "video"]],
+            ["view", ["fullscreen", "codeview", "help"]],
+        ],
+    },
+}

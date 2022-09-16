@@ -6,8 +6,11 @@ from .feeds import AtomFeed
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("post", views.post_list, name="post_list"),
-    path("tag/<slug:tag_slug>/", views.post_list, name="post_tag"),
-    path("post/<slug:slug>/", views.post_detail, name="post_detail"),
+    path("writing", views.writing_list, name="writing_list"),
+    path("writing/tag/<slug:tag_slug>/", views.writing_list, name="writing_tag"),
+    path("writing/<slug:slug>/", views.writing_detail, name="writing_detail"),
+    path("art", views.art_list, name="art_list"),
+    path("art/tag/<slug:tag_slug>/", views.art_list, name="art_tag"),
+    path("art/<slug:slug>/", views.art_detail, name="art_detail"),
     path("rss", AtomFeed()),
 ]

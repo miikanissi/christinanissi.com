@@ -222,7 +222,7 @@ SUMMERNOTE_CONFIG = {
     "iframe": True,
     "summernote": {
         "width": "100%",
-        "height": "720",
+        "height": "480",
         "toolbar": [
             ["style", ["style"]],
             [
@@ -240,9 +240,9 @@ SUMMERNOTE_CONFIG = {
             ["fontsize", ["fontsize"]],
             ["color", ["color"]],
             ["para", ["ul", "ol", "paragraph"]],
-            ["table", ["table"]],
+            ["table", ["table", "hr"]],
             ["insert", ["link", "picture", "video"]],
-            ["view", ["fullscreen", "codeview", "help"]],
+            ["view", ["fullscreen", "undo", "redo", "codeview", "help"]],
         ],
     },
 }

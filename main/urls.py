@@ -12,5 +12,7 @@ urlpatterns = [
     path("art", views.art_list, name="art_list"),
     path("art/tag/<slug:tag_slug>/", views.art_list, name="art_tag"),
     path("art/<slug:slug>/", views.art_detail, name="art_detail"),
+    path("about/", views.about, name="about"),
+    path("contact/", views.contact, name="contact"),
     path("rss", AtomFeed()),
 ]

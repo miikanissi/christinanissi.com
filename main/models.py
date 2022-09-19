@@ -55,8 +55,10 @@ class Art(models.Model):
 class ArtImage(models.Model):
     title = models.CharField(max_length=255)
     caption = models.TextField(blank=True)
-    art = models.ForeignKey(Art, default=None, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="media/")
+    art = models.ForeignKey(
+        Art, default=None, on_delete=models.CASCADE, related_name="art_images"
+    )
+    image = models.ImageField(upload_to="art/")
 
     def __str__(self):
         return self.title

@@ -8,7 +8,16 @@ from .models import Writing
 
 
 def index(request):
-    return render(request, "index.html")
+    arts = Art.objects.filter(status=1).order_by("-created_on")[:6]
+    return render(request, "index.html", {"arts": arts})
+
+
+def about(request):
+    return render(request, "about.html")
+
+
+def contact(request):
+    return render(request, "contact.html")
 
 
 def writing_detail(request, slug):

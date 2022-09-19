@@ -21,6 +21,13 @@ from sentry_sdk.integrations.django import DjangoIntegration
 env = environ.Env(
     SECRET_KEY=(str, "secret123"),
     ALLOWED_HOSTS=(list, []),
+    LOADERS=(
+        list,
+        [
+            "django.template.loaders.filesystem.Loader",
+            "django.template.loaders.app_directories.Loader",
+        ],
+    ),
     DEBUG=(bool, True),
     DJANGO_LOG_LEVEL=(str, "INFO"),
     DB_NAME=(str, "postgres"),
@@ -93,11 +100,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "christinanissi.urls"
 
+LOADERS: List[str] = env("LOADERS")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -105,7 +112,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "christinanissi.context_processors.settings",
-            ]
+            ],
+            "loaders": LOADERS,
         },
     }
 ]
@@ -116,7 +124,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 WSGI_APPLICATION = "christinanissi.wsgi.application"
 
-# Adjust this to taste.
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
 # Keep connections in the pool for an hour.

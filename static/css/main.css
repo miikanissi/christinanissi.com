@@ -17,15 +17,8 @@ body {
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 /* ART IMAGE RULES START */
-.content-title {
-    color: #1a1a1a;
-    text-align: center;
-    margin-bottom: 10px;
-}
 .content {
     position: relative;
-    width: 90%;
-    max-width: 400px;
     margin: auto;
     overflow: hidden;
 }
@@ -42,12 +35,16 @@ body {
     -webkit-transition: all 0.4s ease-in-out 0s;
     -moz-transition: all 0.4s ease-in-out 0s;
     transition: all 0.4s ease-in-out 0s;
+    border-radius: 5px;
 }
 .content:hover .content-overlay {
     opacity: 1;
 }
 .content-image {
     width: 100%;
+    padding-bottom: 100%;
+    background-size: cover;
+    background-position: center;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
@@ -72,16 +69,13 @@ body {
     left: 50%;
     opacity: 1;
 }
-.content-details h3 {
+.content-title {
+    text-align: center;
     color: #fff;
     font-weight: 500;
     letter-spacing: 0.15em;
     margin-bottom: 0.5em;
     text-transform: uppercase;
-}
-.content-details p {
-    color: #fff;
-    font-size: 0.8em;
 }
 .fadeIn-bottom {
     top: 80%;

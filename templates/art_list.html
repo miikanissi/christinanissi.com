@@ -1,17 +1,18 @@
 <div class="container text-center">
-    <div class="row row-cols-3">
+    <div class="row">
         {% for art in arts %}
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-4 py-2 px-2">
             <div class="content">
                 <a href="{% url 'art_detail' art.slug %}">
-                    <div class="content-overlay"></div>
                     {% with art.art_images.all.0 as art_image %}
-                    <img src="{{ art_image.image.url }}" class="content-image" alt="{{ art_image.title }}" />
-                    {% endwith %}
+                    <div class="content-overlay"></div>
+                    <div class="content-image" style="background-image: url({{ art_image.image.url}})">
+                    </div>
                     <div class="content-details fadeIn-bottom">
                         <h3 class="content-title">{{ art.title }}</h3>
                     </div>
                 </a>
+                {% endwith %}
             </div>
         </div>
         {% endfor %}

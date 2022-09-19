@@ -7,14 +7,15 @@ STATUS = ((0, "Draft"), (1, "Published"))
 
 
 class Writing(models.Model):
-    title = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, unique=True)
+    title = models.CharField(max_length=128, unique=True)
+    slug = models.SlugField(max_length=128, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="writings")
     tags = TaggableManager(blank=True)
-    content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    teaser = models.CharField(max_length=200)
+    content = models.TextField()
 
     class Meta:
         ordering = ["-created_on"]
@@ -30,8 +31,8 @@ class Writing(models.Model):
 
 
 class Art(models.Model):
-    title = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, unique=True)
+    title = models.CharField(max_length=128, unique=True)
+    slug = models.SlugField(max_length=128, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="arts")
     tags = TaggableManager(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -53,7 +54,7 @@ class Art(models.Model):
 
 
 class ArtImage(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=128)
     caption = models.TextField(blank=True)
     art = models.ForeignKey(
         Art, default=None, on_delete=models.CASCADE, related_name="art_images"

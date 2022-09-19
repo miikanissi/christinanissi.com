@@ -10,11 +10,30 @@ body {
     font-size: 18px;
     font-size: 1.8rem;
     line-height: 1.5;
-    margin: 0 auto;
+    margin: 0;
     width: 100%;
-    padding: 0 16px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+#wrapwrap {
+    margin: 0 auto;
+}
+@media (min-width: 992px) {
+    #wrapwrap {
+        max-width: 1060px;
+    }
+}
+
+@media (min-width: 1200px) {
+    #wrapwrap {
+        max-width: 1240px;
+    }
+}
+
+@media (min-width: 1400px) {
+    #wrapwrap {
+        max-width: 1520px;
+    }
 }
 /* ART IMAGE RULES START */
 .content {

@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Writings</h3>
+        </div>
+    </div>
+    <div class="row">
+        {% for writing in writings %}
+        <div class="col-12 col-md-6 col-lg-4 py-2 px-2">
+            <div class="card writing-grid">
+                <div class="card-body writing-info">
+                    <h5 class="card-title">{{ writing.title }}</h5>
+                    <p class="card-text">{{ writing.teaser }}</p>
+                    <a href="{% url 'writing_detail' writing.slug %}">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

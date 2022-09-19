@@ -9,7 +9,8 @@ from .models import Writing
 
 def index(request):
     arts = Art.objects.filter(status=1).order_by("-created_on")[:6]
-    return render(request, "index.html", {"arts": arts})
+    writings = Writing.objects.filter(status=1).order_by("-created_on")[:6]
+    return render(request, "index.html", {"arts": arts, "writings": writings})
 
 
 def about(request):

@@ -1,23 +1,24 @@
-<div class="container">
+<div class="container py-3">
     <div class="row">
         <div class="col">
-            <h3>Art</h3>
+            <h2>Art</h2>
         </div>
     </div>
-    <div class="row">
+    <div class="row cn_art_row">
         {% for art in arts %}
-        <div class="col-12 col-md-6 col-lg-4 py-2 px-2">
-            <div class="content">
+        <div class="col-12 col-md-6 col-lg-4 py-2 px-2 cn_art_col">
+            <div class="cn_art_content">
                 <a href="{% url 'art_detail' art.slug %}">
                     {% with art.art_images.all.0 as art_image %}
-                    <div class="content-overlay"></div>
-                    <div class="content-image" style="background-image: url({{ art_image.image.url}})">
+                    <div class="cn_art_content_overlay"></div>
+                    <div
+                        class="cn_art_content_image"
+                        style="background-image: url({{ art_image.image.url}})"></div>
+                    <div class="cn_art_content_details cn_fadein_bottom">
+                        <h3 class="cn_art_content_title">{{ art.title }}</h3>
                     </div>
-                    <div class="content-details fadeIn-bottom">
-                        <h3 class="content-title">{{ art.title }}</h3>
-                    </div>
+                    {% endwith %}
                 </a>
-                {% endwith %}
             </div>
         </div>
         {% endfor %}

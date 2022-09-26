@@ -21,12 +21,10 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include
 from django.urls import path
 
-from main.sitemaps import ArtSitemap
-from main.sitemaps import WritingSitemap
+from main.sitemaps import ContentSitemap
 
 sitemaps = {
-    "art": ArtSitemap,
-    "writings": WritingSitemap,
+    "content": ContentSitemap,
 }
 urlpatterns = [
     path("admin/", admin.site.urls),

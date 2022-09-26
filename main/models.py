@@ -4,18 +4,20 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 
 STATUS = ((0, "Draft"), (1, "Published"))
+CATEGORY = ((1, "Art"), (2, "Writing"))
 
 
-class Writing(models.Model):
+class Content(models.Model):
+    status = models.IntegerField(choices=STATUS, default=0)
     title = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(max_length=128, unique=True)
+    category = models.IntegerField(choices=CATEGORY)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="writings")
     tags = TaggableManager(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    status = models.IntegerField(choices=STATUS, default=0)
     teaser = models.CharField(max_length=200)
-    content = models.TextField()
+    description = models.TextField()
 
     class Meta:
         ordering = ["-created_on"]
@@ -24,42 +26,19 @@ class Writing(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("writing_detail", kwargs={"slug": str(self.slug)})
-
-    def get_description(self):
-        return self.content
-
-
-class Art(models.Model):
-    title = models.CharField(max_length=128, unique=True)
-    slug = models.SlugField(max_length=128, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="arts")
-    tags = TaggableManager(blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-    status = models.IntegerField(choices=STATUS, default=0)
-    description = models.TextField(blank=True)
-
-    class Meta:
-        ordering = ["-created_on"]
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse("art_detail", kwargs={"slug": str(self.slug)})
+        return reverse("detail", kwargs={"slug": str(self.slug)})
 
     def get_description(self):
         return self.description
 
 
-class ArtImage(models.Model):
+class Image(models.Model):
     title = models.CharField(max_length=128)
     caption = models.TextField(blank=True)
-    art = models.ForeignKey(
-        Art, default=None, on_delete=models.CASCADE, related_name="art_images"
+    content = models.ForeignKey(
+        Content, default=None, on_delete=models.CASCADE, related_name="images"
     )
-    image = models.ImageField(upload_to="art/")
+    image = models.ImageField(upload_to="content/")
 
     def __str__(self):
         return self.title

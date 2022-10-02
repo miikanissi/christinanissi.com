@@ -1,25 +1,29 @@
-<div class="container-md py-3 mt-5">
-    <div class="row text-center">
-    <h1>{{ content.title }}</h1>
-        <div class="col-12">
-                            <h6 class="mb-2 text-muted">
-                                {{ content.created_on | date:"M d, Y"}}{% if content.tags.all %} — {% endif %}
-                                {% for tag in content.tags.all %}
-                                    <a href="{% url 'writing_tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </h4>
-                            <p>{{ content.description | safe }}</p>
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12">
+        <div class="row mb-5">
+            <div class="row text-center">
+                <h1>{{ content.title }}</h1>
+                <div class="col-12">
+                    <h6 class="mb-2 text-muted">
+                        {{ content.created_on | date:"M d, Y"}}{% if content.tags.all %} — {% endif %}
+                        {% for tag in content.tags.all %}
+                            <a href="{% url 'writing_tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </h6>
+                    <p>{{ content.description | safe }}</p>
+                </div>
+                {% if content.category == 1 %}
+                    {% for image in content.images.all %}
+                        <div class="col-12 py-3">
+                            <h3>{{image.title}}</h3>
+                            {% if image.description %}
+                                <p>{{image.description | safe}}</p>
+                            {% endif %}
+                            <img src="{{image.image.url}}" alt="{{image.title}}" class="w-100" />
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
-    {% if content.category == 1 %}
-        {% for image in content.images.all %}
-        <div class="col-12 py-3">
-            <h3>{{image.title}}</h3>
-            {% if image.description %}
-            <p>{{image.description | safe}}</p>
-            {% endif %}
-            <img src="{{image.image.url}}" alt="{{image.title}}" class="w-100"/>
-        </div>
-        {% endfor %}
-    {% endif %}
     </div>
 </div>

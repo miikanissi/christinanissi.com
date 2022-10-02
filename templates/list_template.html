@@ -1,37 +1,35 @@
-<div class="container-md py-3 mt-5">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5 cn_row">
-        {% for content in contents %}
-            <div class="col cn_col">
-                {% if content.category == 1 %}
-                    <div class="cn_art_content card">
-                        <a href="{% url 'art_detail' content.slug %}">
-                            {% with content.images.all.0 as image %}
-                                <div class="cn_art_content_overlay"></div>
-                                <div class="cn_art_content_image">
-                                    <img src="{{image.image.url}}" alt="{{image.title}}" />
-                                </div>
-                                <div class="cn_art_content_details cn_fadein_bottom">
-                                    <h3 class="cn_art_content_title">{{ content.title }}</h3>
-                                </div>
-                            {% endwith %}
-                        </a>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5 cn_row">
+    {% for content in contents %}
+        <div class="col cn_col">
+            {% if content.category == 1 %}
+                <div class="cn_art_content card">
+                    <a href="{% url 'art_detail' content.slug %}">
+                        {% with content.images.all.0 as image %}
+                            <div class="cn_art_content_overlay"></div>
+                            <div class="cn_art_content_image">
+                                <img src="{{image.image.url}}" alt="{{image.title}}" />
+                            </div>
+                            <div class="cn_art_content_details cn_fadein_bottom">
+                                <h3 class="cn_art_content_title">{{ content.title }}</h3>
+                            </div>
+                        {% endwith %}
+                    </a>
+                </div>
+            {% elif content.category == 2 %}
+                <div class="cn_writing_card card">
+                    <div class="card-body cn_writing_body">
+                        <h5 class="card-title">{{ content.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            {{ content.created_on | date:"M d, Y"}}{% if content.tags.all %} — {% endif %}
+                            {% for tag in content.tags.all %}
+                                <a href="{% url 'writing_tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </h6>
+                        <p class="card-text">{{ content.teaser }}</p>
+                        <a href="{% url 'writing_detail' content.slug %}">Read More</a>
                     </div>
-                {% elif content.category == 2 %}
-                    <div class="cn_writing_card card">
-                        <div class="card-body cn_writing_body">
-                            <h5 class="card-title">{{ content.title }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {{ content.created_on | date:"M d, Y"}}{% if content.tags.all %} — {% endif %}
-                                {% for tag in content.tags.all %}
-                                    <a href="{% url 'writing_tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </h6>
-                            <p class="card-text">{{ content.teaser }}</p>
-                            <a href="{% url 'writing_detail' content.slug %}">Read More</a>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
 </div>

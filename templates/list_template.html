@@ -22,7 +22,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">
                             {{ content.created_on | date:"M d, Y"}}{% if content.tags.all %} — {% endif %}
                             {% for tag in content.tags.all %}
-                                <a href="{% url 'writing_tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                                <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                         </h6>
                         <p class="card-text">{{ content.teaser }}</p>

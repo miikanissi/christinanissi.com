@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load i18n %}
 {% block title %}
     {% trans "About" %}
@@ -7,7 +8,20 @@
     <div class="row justify-content-center">
         <div class="col-lg-10 col-md-12">
             <div class="row justify-content-center">
-                <h1>About</h1>
+                <div class="col-lg-8 py-4">
+                    <h1>About</h1>
+                    <p>
+                        Hello! I'm Christina Nissi. I have a BA in Applied Mathematics. I have experience programming in Unity with C#, programming in Java, and performing data simulations and analyses with Python. I create concept art and design and write narratives.
+                    </p>
+                    <p>
+                        In my free time I love cooking, baking, and fostering rescue cats back to health. Plus I play video games, my favorite genres being RPGs.
+                    </p>
+                </div>
+                <div class="col-lg-4 py-4">
+                    <img src="{% static "/files/christina-headshot.jpeg" %}"
+                         alt="Headshot of Christina Nissi with a cat"
+                         class="w-100"/>
+                </div>
                 <div class="col-md-12 py-4">
                     <h2>Art and Writing</h2>
                     <p>

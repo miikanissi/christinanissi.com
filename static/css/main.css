@@ -87,6 +87,14 @@ html body {
     margin: 0;
     font-family: var(--main-font-family) !important;
 }
+body a {
+    color: #a8384b;
+    text-decoration: none;
+}
+body a:hover {
+    color: #d68596;
+    text-decoration: underline;
+}
 /* BOOTSTRAP OVERRIDES START */
 .card {
     background-color: var(--main-bg-color-dim) !important;

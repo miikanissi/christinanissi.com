@@ -25,9 +25,13 @@
     <body>
         <div id="wrapwrap">
             <header id="top">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <div class="container-md">
-                        <a href="/" class="navbar-brand">Christina Nissi</a>
+                <nav class="navbar navbar-expand-lg navbar-scroll navbar-light">
+                    <div class="container">
+                        <a href="/" class="navbar-brand">
+                            <img src="{% static "files/christinanissi.png" %}"
+                                 alt="Christina Nissi"
+                                 width="330"/>
+                        </a>
                         <button class="navbar-toggler"
                                 type="button"
                                 data-bs-toggle="collapse"
@@ -48,13 +52,13 @@
                                        href="{% url 'art_list' %}">Art <span class="caret"></span></a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li>
-                                            <a href="{% url 'art_tag' 'concept' %}" class="dropdown-item">Concept Art</a>
+                                            <a href="{% url 'tag' 'concept' %}" class="dropdown-item">Concept Art</a>
                                         </li>
                                         <li>
-                                            <a href="{% url 'art_tag' 'illustration' %}" class="dropdown-item">Illustration</a>
+                                            <a href="{% url 'tag' 'illustration' %}" class="dropdown-item">Illustration</a>
                                         </li>
                                         <li>
-                                            <a href="{% url 'art_tag' 'comic' %}" class="dropdown-item">Comic</a>
+                                            <a href="{% url 'tag' 'comic' %}" class="dropdown-item">Comic</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -85,7 +89,7 @@
                     {% block content %}{% endblock %}
                 </div>
             </main>
-            <footer id="bottom">
+            <footer class="mt-5" id="bottom">
                 <div id="footer">
                     <div class="container-md">
                         <div class="row"></div>
@@ -103,6 +107,5 @@
             </footer>
         </div>
         <script src="{% static "js/masonry.js" %}"></script>
-        <script src="{% static "js/main.js" %}"></script>
     </body>
 </html>

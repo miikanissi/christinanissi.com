@@ -3,4 +3,100 @@
 {% block title %}
     {% trans "Contact" %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12">
+            <div class="row mb-5">
+                <div class="col-md-6 mr-auto">
+                    <h3 class="thin-heading mb-4">Hello!</h3>
+                    <p>Feel free to ask questions about whatever — the content on this site, questions, availability...</p>
+                    <p>I look forward to connecting with you!</p>
+                </div>
+                <div class="col-md-6 ml-auto">
+                    <h3 class="thin-heading mb-4">Connect</h3>
+                    <p>
+                        <span>Email: <a href="mailto:christina@christinanissi.com">christina@christinanissi.com</a></span>
+                        <br/>
+                        <span>LinkedIn: <a href="https://www.linkedin.com/in/christinanissi/" target="_blank">@christinanissi</a></span>
+                        <br/>
+                        <span>ArtStation: <a href="https://www.artstation.com/caterry" target="_blank">@caterry</a></span>
+                        <br/>
+                        <span>GitHub: <a href="https://github.com/cmn97" target="_blank">@cmn97</a></span>
+                    </p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <h3 class="thin-heading mb-4">Contact Me</h3>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                <div class="alert alert-success" role="alert">{{ message }}</div>
+                            {% else %}
+                                <div class="alert alert-danger" role="alert">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <form class="mb-5" method="post" id="contactForm" novalidate>
+                        {% load widget_tweaks %}
+                        {% csrf_token %}
+                        {% for hidden_field in form.hidden_fields %}{{ hidden_field }}{% endfor %}
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                {% if form.is_bound %}
+                                    {% if form.name.errors %}
+                                        {% render_field form.name class="form-control is-invalid" %}
+                                        {% for error in form.name.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                                    {% else %}
+                                        {% render_field form.name class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.name class="form-control" %}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 form-group">
+                                {% if form.is_bound %}
+                                    {% if form.email.errors %}
+                                        {% render_field form.email class="form-control is-invalid" %}
+                                        {% for error in form.email.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                                    {% else %}
+                                        {% render_field form.email class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.email class="form-control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                {% if form.is_bound %}
+                                    {% if form.message.errors %}
+                                        {% render_field form.message class="form-control is-invalid" %}
+                                        {% for error in form.message.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                                    {% else %}
+                                        {% render_field form.message class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.message class="form-control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="submit"
+                                       value="Send Message"
+                                       class="btn btn-primary rounded-0 py-2 px-4"/>
+                                <span class="submitting"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

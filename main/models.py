@@ -34,7 +34,6 @@ class Content(models.Model):
 
 class Image(models.Model):
     title = models.CharField(max_length=128)
-    caption = models.TextField(blank=True)
     content = models.ForeignKey(
         Content, default=None, on_delete=models.CASCADE, related_name="images"
     )

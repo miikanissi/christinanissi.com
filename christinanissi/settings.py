@@ -35,7 +35,8 @@ env = environ.Env(
     DB_PASSWORD=(str, "12345"),
     DB_HOST=(str, "localhost"),
     DB_PORT=(str, "5432"),
-    EMAIL=(str, "example@example.com"),
+    EMAIL_FROM=(str, "example@example.com"),
+    EMAIL_TO=(str, "example@example.com"),
     EMAIL_BACKEND=(str, "django.core.mail.backends.console.EmailBackend"),
     EMAIL_HOST=(str, "localhost"),
     EMAIL_HOST_PORT=(int, 25),
@@ -62,7 +63,7 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS: List[str] = env("ALLOWED_HOSTS")
 
-DEFAULT_FROM_EMAIL = env("EMAIL")
+DEFAULT_FROM_EMAIL = env("EMAIL_FROM")
 
 # Sometimes my CSRF protection would fail locally due to misdetection of HTTPS as HTTPS.
 # If you don't need this, you can remove it, but it shouldn't hurt anything.
@@ -83,6 +84,7 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "taggit",
     "django_summernote",
+    "widget_tweaks",
     "main",
 ]
 

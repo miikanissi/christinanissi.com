@@ -1,12 +1,16 @@
 import environ
+from django.conf import settings
 from django.contrib import messages
 from django.core.mail import BadHeaderError
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
+from django.http import FileResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.cache import cache_control
+from django.views.decorators.http import require_GET
 from taggit.models import Tag
 
 from .forms import ContactForm
@@ -15,6 +19,76 @@ from .models import Content
 env = environ.Env(
     EMAIL_FROM=(str, "example@example.com"), EMAIL_TO=(str, "example@example.com")
 )
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def favicon_32(request):
+    file = (settings.BASE_DIR / "static" / "favicon-32x32.png").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def favicon_16(request):
+    file = (settings.BASE_DIR / "static" / "favicon-16x16.png").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def apple_touch_icon(request):
+    file = (settings.BASE_DIR / "static" / "apple-touch-icon.png").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def manifest(request):
+    file = (settings.BASE_DIR / "static" / "site.webmanifest").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def mask_icon(request):
+    file = (settings.BASE_DIR / "static" / "safari-pinned-tab.svg").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def android_chrome_192(request):
+    file = (settings.BASE_DIR / "static" / "android-chrome-192x192.png").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def android_chrome_512(request):
+    file = (settings.BASE_DIR / "static" / "android-chrome-512x512.png").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def favicon(request):
+    file = (settings.BASE_DIR / "static" / "favicon.ico").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def browserconfig(request):
+    file = (settings.BASE_DIR / "static" / "browserconfig.xml").open("rb")
+    return FileResponse(file)
+
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def mstile(request):
+    file = (settings.BASE_DIR / "static" / "mstile-150x150.png").open("rb")
+    return FileResponse(file)
 
 
 def index(request):

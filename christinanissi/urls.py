@@ -21,16 +21,25 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include
 from django.urls import path
 
+from main.models import Content
 from main.sitemaps import ContentSitemap
+from main.sitemaps import StaticViewSitemap
 
 sitemaps = {
+    "static": StaticViewSitemap,
     "content": ContentSitemap,
 }
+sitemap_dict = {"queryset": Content.objects.all().filter(status="1")}
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("main.urls")),
     path("summernote/", include("django_summernote.urls")),
-    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="sitemap",
+    ),
 ]
 
 if settings.DEBUG:

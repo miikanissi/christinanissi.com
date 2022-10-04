@@ -1,4 +1,5 @@
 from django.contrib.syndication.views import Feed
+from django.utils import timezone
 from django.utils.feedgenerator import Atom1Feed
 
 from .models import Content
@@ -10,7 +11,7 @@ class LatestFeed(Feed):
     description = "New content on my website."
 
     def items(self):
-        content = Content.objects.filter(status=1)
+        content = Content.objects.filter(status=1, publish_date__lt=timezone.now())
         self.item_count = content.count()
         return content
 

@@ -2,11 +2,14 @@ import environ
 from django.contrib import messages
 from django.core.mail import BadHeaderError
 from django.core.mail import EmailMessage
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils import timezone
 from taggit.models import Tag
 
 from .forms import ContactForm
@@ -18,7 +21,9 @@ env = environ.Env(
 
 
 def index(request):
-    contents = Content.objects.filter(status=1).order_by("-created_on")[:12]
+    contents = Content.objects.filter(
+        status=1, publish_date__lt=timezone.now()
+    ).order_by("-publish_date")[:12]
     return render(request, "index.html", {"contents": contents})
 
 
@@ -65,25 +70,38 @@ def content_list(request, category=None, tag_slug=None):
     template_name = "content_list.html"
     tag = None
     if category:
-        contents = Content.objects.filter(status=1, category=category).order_by(
-            "-created_on"
-        )
+        contents = Content.objects.filter(
+            status=1, publish_date__lt=timezone.now(), category=category
+        ).order_by("-publish_date")
     else:
-        contents = Content.objects.filter(status=1).order_by("-created_on")
-    paginator = Paginator(contents, 12)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+        contents = Content.objects.filter(
+            status=1, publish_date__lt=timezone.now()
+        ).order_by("-publish_date")
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         contents = contents.filter(tags__in=[tag])
+    default_page = 1
+    contents_per_page = 12
+    page_number = request.GET.get("page", default_page)
+    paginator = Paginator(contents, contents_per_page)
+    try:
+        contents_page = paginator.page(page_number)
+    except PageNotAnInteger:
+        contents_page = paginator.page(default_page)
+    except EmptyPage:
+        contents_page = paginator.page(paginator.num_pages)
     return render(
         request,
         template_name,
-        {"contents": contents, "category": category, "page_obj": page_obj, "tag": tag},
+        {
+            "contents_page": contents_page,
+            "category": category,
+            "tag": tag,
+        },
     )
 
 
-def content_detail(request, slug, category=None):
+def content_detail(request, slug):
     template_name = "content_detail.html"
     content = get_object_or_404(Content, slug=slug)
-    return render(request, template_name, {"content": content, "category": category})
+    return render(request, template_name, {"content": content})

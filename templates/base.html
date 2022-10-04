@@ -63,11 +63,6 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="https://www.artstation.com/caterry"
-                                       target="_blank">ArtStation</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="{% url 'writing_list' %}">Writing</a>
                                 </li>
                                 <li class="nav-item">
@@ -75,6 +70,11 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'about' %}">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="https://www.artstation.com/caterry"
+                                       target="_blank">ArtStation</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="https://github.com/cmn97" target="_blank">GitHub</a>
@@ -90,17 +90,14 @@
                 </div>
             </main>
             <footer class="mt-5" id="bottom">
-                <div id="footer">
-                    <div class="container-md">
-                        <div class="row"></div>
-                    </div>
-                </div>
-                <div id="copyright">
-                    <div class="container-md p-3">
-                        <div class="row">
-                            <div class="col-sm text-center text-sm-left text-muted">
-                                <span>Copyright © {% now "Y" %} Christina Nissi</span>
-                            </div>
+                <div id="footer" class="container-md mt-5 pb-3">
+                    <div class="row align-items-end">
+                        <div class="col-sm-auto text-start text-muted">
+                            <span>Copyright © {% now "Y" %} Christina Nissi</span>
+                        </div>
+                        <div class="col text-start text-sm-end text-muted">
+                            <a href="/contact" class="text-reset"><span>Contact</span></a>
+                            <a href="/rss" class="text-reset"><span>RSS</span></a>
                         </div>
                     </div>
                 </div>

@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
     "django_extensions",
     "djangoql",
     "whitenoise.runserver_nostatic",
@@ -227,11 +228,14 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+TAGGIT_CASE_INSENSITIVE = True
 SUMMERNOTE_CONFIG = {
     "iframe": True,
     "summernote": {
         "width": "100%",
         "height": "480",
+        "maximumImageFileSize": "5242880",
+        "attachment_filesize_limit": "5242880",
         "toolbar": [
             ["style", ["style"]],
             [

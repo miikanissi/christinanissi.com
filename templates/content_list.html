@@ -4,5 +4,45 @@
     {% trans "Content" %}
 {% endblock %}
 {% block content %}
-    {% include "list_template.html" with contents=contents %}
+    {% include "list_template.html" with contents=contents_page %}
+    {% if contents_page %}
+        {% if contents_page.has_other_pages %}
+            <nav aria-label="Content pagination">
+                <ul class="pt-5 pagination justify-content-center">
+                    {% if contents_page.has_previous %}
+                        <li class="page-item">
+                            <a href="?page={{ contents_page.previous_page_number }}"
+                               class="page-link"><span aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link" tabindex="-1" aria-disabled="true"><span aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    {% endif %}
+                    {% for page_number in contents_page.paginator.page_range %}
+                        {% if contents_page.number == page_number %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link active" href="#">{{ page_number }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if contents_page.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ contents_page.next_page_number }}" class="page-link"><span aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link" tabindex="-1" aria-disabled="1"><span aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <p>This page has no content yet.</p>
+    {% endif %}
 {% endblock %}

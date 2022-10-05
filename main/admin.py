@@ -3,11 +3,11 @@ from django_summernote.admin import SummernoteInlineModelAdmin
 from django_summernote.admin import SummernoteModelAdmin
 
 from .models import Content
-from .models import Image
+from .models import ContentImage
 
 
 class ImageAdminInline(admin.StackedInline, SummernoteInlineModelAdmin):
-    model = Image
+    model = ContentImage
 
 
 @admin.register(Content)
@@ -18,11 +18,20 @@ class ContentAdmin(SummernoteModelAdmin):
         "slug",
         "category",
         "tag_list",
-        "created_on",
-        "updated_on",
+        "publish_date",
+        "create_date",
+        "update_date",
         "status",
     )
-    list_filter = ("category", "tags", "created_on", "status")
+    list_editable = ("category", "status")
+    list_filter = (
+        "category",
+        "tags",
+        "publish_date",
+        "create_date",
+        "update_date",
+        "status",
+    )
     search_fields = ["title", "description", "tags"]
     prepopulated_fields = {"slug": ("title",)}
     summernote_fields = ("description",)
@@ -37,7 +46,7 @@ class ContentAdmin(SummernoteModelAdmin):
         model = Content
 
 
-@admin.register(Image)
+@admin.register(ContentImage)
 class ImageAdmin(SummernoteModelAdmin):
     list_display = ("title", "image")
     search_fields = ["title"]

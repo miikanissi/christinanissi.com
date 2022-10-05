@@ -71,6 +71,8 @@
 :root {
     --main-bg-color: #ffffff;
     --main-fg-color: #2d2d2d;
+    --main-fg-color-alt: #a8384b;
+    --main-fg-color-alt-dim: #d68596;
     --main-fg-color-dim: rgba(45, 45, 45, 0.6);
     --main-border-radius: 0;
     --main-font-family: Raleway, sans-serif;
@@ -100,6 +102,32 @@ body a:hover {
     background-color: var(--main-bg-color-dim) !important;
     border-radius: var(--main-border-radius) !important;
     /* border: none !important; */
+}
+.page-item.active .page-link {
+    background-color: var(--main-fg-color-alt) !important;
+    border-color: var(--main-fg-color-alt) !important;
+    color: var(--main-bg-color) !important;
+}
+.page-item.disabled .page-link {
+    color: #6c757d !important;
+}
+.page-link,
+.page-link:hover {
+    color: var(--main-fg-color-alt) !important;
+}
+.page-link:focus {
+    box-shadow: none !important;
+}
+.page-item:first-child .page-link {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+.page-item:last-child .page-link {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: var(--main-fg-color) !important;
 }
 /* BOOTSTRAP OVERRIDES END */
 /* ART IMAGE RULES START */

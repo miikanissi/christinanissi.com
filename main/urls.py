@@ -9,16 +9,10 @@ from .feeds import AtomFeed
 urlpatterns = [
     path("", views.index, name="index"),
     path("content", views.content_list, name="content_list"),
-    path("writing", views.content_list, {"category": 2}, name="writing_list"),
+    path("content/<slug:slug>/", views.content_detail, name="content_detail"),
     path("tag/<slug:tag_slug>/", views.content_list, name="tag"),
-    path(
-        "writing/<slug:slug>/",
-        views.content_detail,
-        {"category": 2},
-        name="writing_detail",
-    ),
+    path("writing", views.content_list, {"category": 2}, name="writing_list"),
     path("art", views.content_list, {"category": 1}, name="art_list"),
-    path("art/<slug:slug>/", views.content_detail, {"category": 1}, name="art_detail"),
     path("about/", views.about, name="about"),
     path("contact/", views.contact, name="contact"),
     path("rss", AtomFeed()),

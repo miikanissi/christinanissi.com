@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from taggit.managers import TaggableManager
 
 STATUS = ((0, "Draft"), (1, "Published"))
@@ -14,30 +15,41 @@ class Content(models.Model):
     category = models.IntegerField(choices=CATEGORY)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="writings")
     tags = TaggableManager(blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
+    publish_date = models.DateTimeField(default=timezone.now)
     teaser = models.CharField(max_length=200)
     description = models.TextField()
 
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["-publish_date"]
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("detail", kwargs={"slug": str(self.slug)})
+        return reverse("content_detail", kwargs={"slug": str(self.slug)})
 
     def get_description(self):
         return self.description
 
 
-class Image(models.Model):
-    title = models.CharField(max_length=128)
+class ContentImage(models.Model):
+    title = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="Defaults to filename if left blank.",
+    )
     content = models.ForeignKey(
         Content, default=None, on_delete=models.CASCADE, related_name="images"
     )
     image = models.ImageField(upload_to="content/")
+
+    def save(self, *args, **kwargs):
+        if not self.title:
+            self.title = self.image.name
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

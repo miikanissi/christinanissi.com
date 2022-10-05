@@ -69,10 +69,15 @@ def contact(request):
 def content_list(request, category=None, tag_slug=None):
     template_name = "content_list.html"
     tag = None
+    title = "Content"
     if category:
         contents = Content.objects.filter(
             status=1, publish_date__lt=timezone.now(), category=category
         ).order_by("-publish_date")
+        if category == 2:
+            title = "Writing"
+        if category == 1:
+            title = "Art"
     else:
         contents = Content.objects.filter(
             status=1, publish_date__lt=timezone.now()
@@ -80,6 +85,7 @@ def content_list(request, category=None, tag_slug=None):
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         contents = contents.filter(tags__in=[tag])
+        title = str(tag).title()
     default_page = 1
     contents_per_page = 12
     page_number = request.GET.get("page", default_page)
@@ -97,6 +103,7 @@ def content_list(request, category=None, tag_slug=None):
             "contents_page": contents_page,
             "category": category,
             "tag": tag,
+            "title": title,
         },
     )
 
@@ -104,4 +111,5 @@ def content_list(request, category=None, tag_slug=None):
 def content_detail(request, slug):
     template_name = "content_detail.html"
     content = get_object_or_404(Content, slug=slug)
-    return render(request, template_name, {"content": content})
+    title = str(content.title)
+    return render(request, template_name, {"content": content, "title": title})

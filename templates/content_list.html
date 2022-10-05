@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}
-    {% trans "Content" %}
-{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
     {% include "list_template.html" with contents=contents_page %}
     {% if contents_page %}

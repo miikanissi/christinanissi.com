@@ -7,7 +7,7 @@ from .models import ContentImage
 def content_image_compressor(sender, **kwargs):
     if kwargs["created"]:
         with Image.open(kwargs["instance"].image.path) as image:
-            image.save(kwargs["instance"].image.path, optimize=True, quality=50)
+            image.save(kwargs["instance"].image.path, optimize=True)
 
 
 post_save.connect(content_image_compressor, sender=ContentImage)

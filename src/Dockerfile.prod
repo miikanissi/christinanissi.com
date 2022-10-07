@@ -1,0 +1,51 @@
+# Pull python image
+FROM python:3.10-alpine
+
+# Set work directory
+WORKDIR /usr/src/app
+
+# Set python env variables
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+# Install pip package dependencies
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev g++
+
+# Install dependencies with poetry
+RUN pip install -U --pre pip poetry
+ADD poetry.lock .
+ADD pyproject.toml .
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-interaction --no-root
+
+# Create home dir for django user
+RUN mkdir -p /home/django
+
+# Create django user
+RUN addgroup -S django && adduser -S django -G django
+
+# Create the directories
+ENV HOME=/home/django
+ENV DJANGO_HOME=/home/django/web
+RUN mkdir $DJANGO_HOME
+RUN mkdir $DJANGO_HOME/staticfiles
+RUN mkdir $DJANGO_HOME/mediafiles
+WORKDIR $DJANGO_HOME
+
+# Copy and set entrypoint as executable
+COPY ./entrypoint.prod.sh .
+RUN sed -i 's/\r$//g' $DJANGO_HOME/entrypoint.prod.sh
+RUN chmod +x $DJANGO_HOME/entrypoint.prod.sh
+
+# Copy project
+COPY . $DJANGO_HOME
+
+# Change file permissions to django user
+RUN chown -R django:django $DJANGO_HOME
+
+# Change to the django user
+USER django
+
+# Run entrypoint
+ENTRYPOINT ["/home/django/web/entrypoint.prod.sh"]

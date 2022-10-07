@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:14-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+  web:
+    build:
+      context: ./src
+      dockerfile: Dockerfile.prod
+    command: gunicorn christinanissi.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/code:cached
+      - static_volume:/home/django/web/staticfiles
+      - media_volume:/home/django/web/mediafiles
+    ports:
+      - "8005:8000"
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

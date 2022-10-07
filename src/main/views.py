@@ -1,4 +1,5 @@
-import environ
+import os
+
 from django.contrib import messages
 from django.core.mail import BadHeaderError
 from django.core.mail import EmailMessage
@@ -14,10 +15,6 @@ from taggit.models import Tag
 
 from .forms import ContactForm
 from .models import Content
-
-env = environ.Env(
-    EMAIL_FROM=(str, "example@example.com"), EMAIL_TO=(str, "example@example.com")
-)
 
 
 def index(request):
@@ -45,8 +42,8 @@ def contact(request):
             email = EmailMessage(
                 subject,
                 message,
-                env("EMAIL_FROM"),
-                [env("EMAIL_TO")],
+                os.environ.get("EMAIL_FROM", "example@example.com"),
+                [os.environ.get("EMAIL_TO", "example@example.com")],
                 reply_to=[form.cleaned_data["email"]],
             )
             try:

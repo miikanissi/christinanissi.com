@@ -109,6 +109,10 @@ celerybeat-schedule
 
 # Environments
 .env
+.env.prod.db
+.env.prod
+.env.dev.db
+.env.dev
 .venv
 env/
 venv/
@@ -194,6 +198,7 @@ dmypy.json
 misc/dbdata/
 .vscode
 _static/
+staticfiles/
 report.xml
 tags
 tags.*

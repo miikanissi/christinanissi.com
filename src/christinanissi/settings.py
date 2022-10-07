@@ -11,59 +11,21 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 import os
 from pathlib import Path
-from typing import List
 
-import environ
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-# set cast default values
-env = environ.Env(
-    SECRET_KEY=(str, "secret123"),
-    ALLOWED_HOSTS=(list, []),
-    LOADERS=(
-        list,
-        [
-            "django.template.loaders.filesystem.Loader",
-            "django.template.loaders.app_directories.Loader",
-        ],
-    ),
-    DEBUG=(bool, True),
-    DJANGO_LOG_LEVEL=(str, "INFO"),
-    DB_NAME=(str, "postgres"),
-    DB_USER=(str, "postgres"),
-    DB_PASSWORD=(str, "12345"),
-    DB_HOST=(str, "localhost"),
-    DB_PORT=(str, "5432"),
-    EMAIL_FROM=(str, "example@example.com"),
-    EMAIL_TO=(str, "example@example.com"),
-    EMAIL_BACKEND=(str, "django.core.mail.backends.console.EmailBackend"),
-    EMAIL_HOST=(str, "localhost"),
-    EMAIL_HOST_PORT=(int, 25),
-    EMAIL_HOST_USER=(str, ""),
-    EMAIL_HOST_PASSWORD=(str, ""),
-    IN_DOCKER=(bool, False),
-    REDIS=(str, "redis://127.0.0.1:6379/1"),
-    ENVIRONMENT=(str, "local"),
-    SENTRY_DSN=(str, "https://examplePublicKey@o0.ingest.sentry.io/0"),
-)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# Read environment variables from .env
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS: List[str] = env("ALLOWED_HOSTS")
+# 'ALLOWED_HOSTS' should be a single string of hosts with a space between each.
+# For example: 'ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(" ")
 
-DEFAULT_FROM_EMAIL = env("EMAIL_FROM")
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_FROM", default="example@example.com")
 
 # Sometimes my CSRF protection would fail locally due to misdetection of HTTPS as HTTPS.
 # If you don't need this, you can remove it, but it shouldn't hurt anything.
@@ -75,14 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    "django.contrib.sites",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
     "django_extensions",
-    "djangoql",
-    "whitenoise.runserver_nostatic",
     "taggit",
     "django_summernote",
     "widget_tweaks",
@@ -92,18 +51,21 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "christinanissi.middleware.StatsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.contrib.sites.middleware.CurrentSiteMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
 ]
 
 ROOT_URLCONF = "christinanissi.urls"
 
-LOADERS: List[str] = env("LOADERS")
+# 'LOADERS' should be a single string of hosts with a space between each.
+LOADERS = os.environ.get(
+    "LOADERS",
+    "django.template.loaders.filesystem.Loader django.template.loaders.app_directories.Loader",
+).split(" ")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -132,45 +94,29 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 # Keep connections in the pool for an hour.
 CONN_MAX_AGE = 60 * 60
 
-if env("IN_DOCKER"):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": env("DB_NAME"),
-            "USER": env("DB_USER"),
-            "PASSWORD": env("DB_PASSWORD"),
-            "HOST": env("DB_HOST"),
-            "PORT": env("DB_PORT"),
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("DB_NAME", BASE_DIR / "db.sqlite3"),
+        "USER": os.environ.get("DB_USER", "user"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
+        "HOST": os.environ.get("DB_HOST", "localhost"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
     }
+}
 
-    CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": env("REDIS"),
-            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-        }
-    }
+SESSION_CACHE_ALIAS = "default"
+SESSION_COOKIE_AGE = 365 * 24 * 60 * 60
 
-    SESSION_CACHE_ALIAS = "default"
-    SESSION_COOKIE_AGE = 365 * 24 * 60 * 60
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-
-EMAIL_BACKEND = env("EMAIL_BACKEND")
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_HOST_PORT = env("EMAIL_HOST_PORT")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+)
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "localhost")
+EMAIL_HOST_PORT = int(os.environ.get("EMAIL_HOST_PORT", default=25))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 # Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
@@ -181,30 +127,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
-SITE_ID = 1
-
-sentry_sdk.init(
-    dsn=env("SENTRY_DSN"),
-    traces_sample_rate=0.2,
-    environment=env("ENVIRONMENT"),
-    integrations=[DjangoIntegration()],
-)
-
-TEST_RUNNER = "xmlrunner.extra.djangotestrunner.XMLTestRunner"
-
-TEST_OUTPUT_FILE_NAME = "report.xml"
 
 LOGGING = {
     "version": 1,
@@ -213,21 +140,33 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["console"],
-            "level": env("DJANGO_LOG_LEVEL"),
+            "level": os.environ.get("DJANGO_LOG_LEVEL", "INFO"),
         }
     },
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
+# Additional security
+CSRF_COOKIE_SECURE = int(os.environ.get("CSRF_COOKIE_SECURE", default=0))
+SESSION_COOKIE_SECURE = int(os.environ.get("SESSION_COOKIE_SECURE", default=0))
+SESSION_COOKIE_HTTPONLY = int(os.environ.get("SESSION_COOKIE_HTTPONLY", default=0))
+SECURE_CONTENT_TYPE_NOSNIFF = int(
+    os.environ.get("SECURE_CONTENT_TYPE_NOSNIFF", default=0)
+)
+SECURE_SSL_REDIRECT = int(os.environ.get("SECURE_SSL_REDIRECT", default=0))
+SECURE_HSTS_PRELOAD = int(os.environ.get("SECURE_HSTS_PRELOAD", default=0))
+SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", default=0))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = int(
+    os.environ.get("SECURE_HSTS_INCLUDE_SUBDOMAINS", default=0)
+)
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "_static"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = BASE_DIR / "mediafiles"
 
+# App settings
 TAGGIT_CASE_INSENSITIVE = True
 SUMMERNOTE_CONFIG = {
     "iframe": True,

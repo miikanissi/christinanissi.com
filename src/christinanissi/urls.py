@@ -20,7 +20,6 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include
 from django.urls import path
-
 from main.models import Content
 from main.sitemaps import ContentSitemap
 from main.sitemaps import StaticViewSitemap

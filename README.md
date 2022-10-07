@@ -30,7 +30,7 @@ Deployed with [Poetry](https://python-poetry.org/) and
 git clone https://github.com/miikanissi/christinanissi.com.git
 cd christinanissi.com
 cp .example.env .env
-poetry init
+poetry install
 docker compose up -d
 ```
 

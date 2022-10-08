@@ -199,6 +199,7 @@ misc/dbdata/
 .vscode
 _static/
 staticfiles/
+mediafiles/
 report.xml
 tags
 tags.*

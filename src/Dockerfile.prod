@@ -21,8 +21,8 @@ RUN poetry install --no-interaction --no-root
 
 # Copy and set entrypoint as executable
 COPY ./entrypoint.prod.sh .
-RUN sed -i 's/\r$//g' usr/src/app/entrypoint.prod.sh
-RUN chmod +x usr/src/app/entrypoint.prod.sh
+RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.prod.sh
+RUN chmod +x /usr/src/app/entrypoint.prod.sh
 
 # Copy project
 COPY . .

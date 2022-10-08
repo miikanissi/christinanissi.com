@@ -14,8 +14,8 @@ services:
     command: gunicorn christinanissi.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/code:cached
-      - static_volume:/home/django/web/staticfiles
-      - media_volume:/home/django/web/mediafiles
+      - ./src/staticfiles:/usr/src/app/staticfiles
+      - ./src/mediafiles:/usr/src/app/mediafiles
     ports:
       - "8005:8000"
     env_file:
@@ -24,5 +24,3 @@ services:
       - db
 volumes:
   postgres_data:
-  static_volume:
-  media_volume:

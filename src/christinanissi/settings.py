@@ -146,6 +146,7 @@ LOGGING = {
 }
 
 # Additional security
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "https://*").split(" ")
 CSRF_COOKIE_SECURE = int(os.environ.get("CSRF_COOKIE_SECURE", default=0))
 SESSION_COOKIE_SECURE = int(os.environ.get("SESSION_COOKIE_SECURE", default=0))
 SESSION_COOKIE_HTTPONLY = int(os.environ.get("SESSION_COOKIE_HTTPONLY", default=0))

@@ -1,3 +1,4 @@
+{% load thumbnail %}
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5 cn_row">
     {% for content in contents %}
         <div class="col cn_col">
@@ -7,8 +8,10 @@
                         {% with content.images.all.0 as image %}
                             <div class="cn_art_content_overlay"></div>
                             <div class="cn_art_content_image">
-                                <img src="{{image.image.url}}" alt="{{image.title}}" />
+                            {% thumbnail image.image "500" as im %}
+                                <img src="{{im.url}}" alt="{{image.title}}" />
                             </div>
+                            {% endthumbnail %}
                             <div class="cn_art_content_details cn_fadein_bottom">
                                 <h4 class="cn_art_content_title">{{ content.title }}</h4>
                             </div>

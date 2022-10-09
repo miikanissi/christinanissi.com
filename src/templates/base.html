@@ -30,7 +30,7 @@
                         <a href="/" class="navbar-brand">
                             <img src="{% static "files/christinanissi.png" %}"
                                  alt="Christina Nissi"
-                                 width="330"/>
+                                 width="260"/>
                         </a>
                         <button class="navbar-toggler"
                                 type="button"
@@ -51,6 +51,9 @@
                                        aria-expanded="false"
                                        href="{% url 'art_list' %}">Art <span class="caret"></span></a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a href="{% url 'art_list' %}" class="dropdown-item">Art</a>
+                                        </li>
                                         <li>
                                             <a href="{% url 'tag' 'concept' %}" class="dropdown-item">Concept Art</a>
                                         </li>

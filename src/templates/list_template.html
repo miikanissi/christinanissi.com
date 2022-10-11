@@ -8,31 +8,35 @@
                         {% with content.images.all.0 as image %}
                             <div class="cn_art_content_overlay"></div>
                             <div class="cn_art_content_image">
-                            {% thumbnail image.image "500" as im %}
-                                <img src="{{im.url}}" alt="{{image.title}}" />
-                            </div>
+                                {% thumbnail image.image "500" as im %}
+                                <img src="{{ im.url }}" alt="{{ image.title }}" />
                             {% endthumbnail %}
-                            <div class="cn_art_content_details cn_fadein_bottom">
-                                <h4 class="cn_art_content_title">{{ content.title }}</h4>
-                            </div>
-                        {% endwith %}
+                        </div>
+                        <div class="cn_art_content_details">
+                            <h4 class="cn_art_content_title">{{ content.title }}</h4>
+                        </div>
+                    {% endwith %}
+                </a>
+            </div>
+        {% elif content.category == 2 %}
+            <div class="cn_writing_card card">
+                <div class="card-body cn_writing_body">
+                    <a href="{% url 'content_detail' content.slug %}" class="text-reset">
+                        <h4 class="card-title">{{ content.title }}</h4>
                     </a>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ content.publish_date | date:"M d, Y" }}
+                        {% if content.tags.all %}—{% endif %}
+                        {% for tag in content.tags.all %}
+                            <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </h6>
+                    <p class="card-text">{{ content.teaser }}</p>
+                    <a href="{% url 'content_detail' content.slug %}">Read More</a>
                 </div>
-            {% elif content.category == 2 %}
-                <div class="cn_writing_card card">
-                    <div class="card-body cn_writing_body">
-                        <a href="{% url 'content_detail' content.slug %}" class="text-reset"><h4 class="card-title">{{ content.title }}</h4></a>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            {{ content.publish_date | date:"M d, Y"}}{% if content.tags.all %} — {% endif %}
-                            {% for tag in content.tags.all %}
-                                <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        </h6>
-                        <p class="card-text">{{ content.teaser }}</p>
-                        <a href="{% url 'content_detail' content.slug %}">Read More</a>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-    {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
 </div>

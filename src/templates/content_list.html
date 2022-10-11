@@ -10,8 +10,8 @@
 {% endblock %}
 {% block content %}
     <h1 class="mb-4 h3">{{ title }}</h1>
-    {% include "list_template.html" with contents=contents_page %}
     {% if contents_page %}
+        {% include "list_template.html" with contents=contents_page %}
         {% if contents_page.has_other_pages %}
             <nav aria-label="Content pagination">
                 <ul class="pt-5 pagination justify-content-center">

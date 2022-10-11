@@ -7,6 +7,15 @@
         <title>
             {% block title %}{% endblock %}
         - christinanissi.com</title>
+        <meta name="description"
+              content="{% block meta_description %}{% endblock %}"/>
+        <meta property="og:title"
+              content="{% block og_title %}{% endblock %} - christinanissi.com"/>
+        <meta property="og:description"
+              content="{% block og_description %}{% endblock %}"/>
+        <meta property="og:image"
+              content="https://christinanissi.com{% static "files/christinanissi-headshot.jpeg" %}"/>
+        <meta property="og:url" content="https://christinanissi.com/"/>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>

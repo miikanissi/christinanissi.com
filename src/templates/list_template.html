@@ -13,7 +13,7 @@
                             {% endthumbnail %}
                         </div>
                         <div class="cn_art_content_details">
-                            <h4 class="cn_art_content_title">{{ content.title }}</h4>
+                            <h2 class="cn_art_content_title h4">{{ content.title }}</h2>
                         </div>
                     {% endwith %}
                 </a>
@@ -22,16 +22,16 @@
             <div class="cn_writing_card card">
                 <div class="card-body cn_writing_body">
                     <a href="{% url 'content_detail' content.slug %}" class="text-reset">
-                        <h4 class="card-title">{{ content.title }}</h4>
+                        <h2 class="card-title h4">{{ content.title }}</h2>
                     </a>
-                    <h6 class="card-subtitle mb-2 text-muted">
+                    <h4 class="card-subtitle mb-2 text-muted h6">
                         {{ content.publish_date | date:"M d, Y" }}
                         {% if content.tags.all %}—{% endif %}
                         {% for tag in content.tags.all %}
                             <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>
                             {% if not forloop.last %},{% endif %}
                         {% endfor %}
-                    </h6>
+                    </h4>
                     <p class="card-text">{{ content.teaser }}</p>
                     <a href="{% url 'content_detail' content.slug %}">Read More</a>
                 </div>

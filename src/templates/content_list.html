@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{{ title }}{% endblock %}
+{% block og_title %}{{ title }}{% endblock %}
+{% block meta_description %}
+    Content list page for Christina Nissi showcasing her recent artwork, writings and game design ideas.
+{% endblock %}
+{% block og_description %}
+    Content list page for Christina Nissi showcasing her recent artwork, writings and game design ideas.
+{% endblock %}
 {% block content %}
+    <h1 class="mb-4 h3">{{ title }}</h1>
     {% include "list_template.html" with contents=contents_page %}
     {% if contents_page %}
         {% if contents_page.has_other_pages %}

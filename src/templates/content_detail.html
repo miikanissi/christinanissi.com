@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{{ title }}{% endblock %}
+{% block og_title %}{{ title }}{% endblock %}
+{% block meta_description %}{{ content.teaser }}{% endblock %}
+{% block og_description %}{{ content.teaser }}{% endblock %}
 {% block content %}
     {% include "detail_template.html" with content=content %}
 {% endblock %}

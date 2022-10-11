@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}Contact{% endblock %}
+{% block og_title %}Contact{% endblock %}
+{% block meta_description %}Contact page for Christina Nissi with a contact form.{% endblock %}
+{% block og_description %}Contact page for Christina Nissi with a contact form.{% endblock %}
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-lg-10 col-md-12">
             <div class="row mb-5">
                 <div class="col-md-6 mr-auto">
-                    <h3 class="thin-heading mb-4">Hello!</h3>
+                    <h3 class="mb-4">Hello!</h3>
                     <p>Feel free to ask questions about whatever — the content on this site, questions, availability...</p>
                     <p>I look forward to connecting with you!</p>
                 </div>
@@ -25,7 +28,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <h3 class="thin-heading mb-4">Contact Me</h3>
+                    <h1 class="h3 mb-4">Contact Me</h1>
                     {% if messages %}
                         {% for message in messages %}
                             {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}

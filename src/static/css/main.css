@@ -180,7 +180,7 @@ body a:hover {
     left: 50%;
     opacity: 1;
 }
-.cn_art_content_title {
+.cn_art_content_details .cn_art_content_title {
     text-align: center;
     color: var(--main-bg-color);
     font-weight: 700;

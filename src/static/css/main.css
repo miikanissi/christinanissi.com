@@ -147,9 +147,9 @@ body a:hover {
     bottom: 0;
     right: 0;
     opacity: 0;
-    -webkit-transition: all 0.4s ease-in-out 0s;
-    -moz-transition: all 0.4s ease-in-out 0s;
-    transition: all 0.4s ease-in-out 0s;
+    -webkit-transition: all 0.6s ease-in-out 0s;
+    -moz-transition: all 0.6s ease-in-out 0s;
+    transition: all 0.6s ease-in-out 0s;
     border-radius: var(--main-border-radius);
 }
 .cn_art_content:hover .cn_art_content_overlay {
@@ -171,9 +171,9 @@ body a:hover {
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    -webkit-transition: all 0.3s ease-in-out 0s;
-    -moz-transition: all 0.3s ease-in-out 0s;
-    transition: all 0.3s ease-in-out 0s;
+    -webkit-transition: all 0.5s ease-in-out 0s;
+    -moz-transition: all 0.5s ease-in-out 0s;
+    transition: all 0.5s ease-in-out 0s;
 }
 .cn_art_content:hover .cn_art_content_details {
     top: 50%;

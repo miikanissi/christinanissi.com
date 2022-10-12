@@ -1,27 +1,25 @@
 <div class="row justify-content-center">
     <div class="col-lg-10 col-md-12">
-        <div class="row mb-5">
-            <div class="row">
-                <h1>{{ content.title }}</h1>
-                <div class="col-12">
-                    <h6 class="mb-2 text-muted">
-                        {{ content.publish_date | date:"M d, Y"}}{% if content.tags.all %} — {% endif %}
-                        {% for tag in content.tags.all %}
-                            <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </h6>
-                </div>
-                <div class="col-12">
-                    <p>{{ content.description | safe }}</p>
-                </div>
-                {% if content.category == 1 %}
-                    {% for image in content.images.all %}
-                        <div class="col-12 py-3">
-                            <a href="{{image.image.url}}" target="_blank"><img src="{{image.image.url}}" alt="{{image.title}}" class="w-100" /></a>
-                        </div>
+        <div class="row">
+            <h1>{{ content.title }}</h1>
+            <div class="col-12">
+                <h6 class="mb-2 text-muted">
+                    {{ content.publish_date | date:"M d, Y"}}{% if content.tags.all %} — {% endif %}
+                    {% for tag in content.tags.all %}
+                        <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                     {% endfor %}
-                {% endif %}
+                </h6>
             </div>
+            <div class="col-12">
+                <p>{{ content.description | safe }}</p>
+            </div>
+            {% if content.category == 1 %}
+                {% for image in content.images.all %}
+                    <div class="col-12 py-3">
+                        <a href="{{image.image.url}}" target="_blank"><img src="{{image.image.url}}" alt="{{image.title}}" class="w-100" /></a>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>

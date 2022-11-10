@@ -48,5 +48,5 @@ class ContentAdmin(SummernoteModelAdmin):
 
 @admin.register(ContentImage)
 class ImageAdmin(SummernoteModelAdmin):
-    list_display = ("title", "image")
+    list_display = ("title", "image", "image_size")
     search_fields = ["title"]

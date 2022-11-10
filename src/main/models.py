@@ -6,6 +6,7 @@ from taggit.managers import TaggableManager
 
 STATUS = ((0, "Draft"), (1, "Published"))
 CATEGORY = ((1, "Art"), (2, "Writing"))
+IMAGE_SIZE = ((0, "Auto"), (1, "100%"), (2, "66%"), (3, "50%"), (4, "33%"), (5, "25%"))
 
 
 class Content(models.Model):
@@ -45,6 +46,7 @@ class ContentImage(models.Model):
         Content, default=None, on_delete=models.CASCADE, related_name="images"
     )
     image = models.ImageField(upload_to="content/")
+    image_size = models.IntegerField(choices=IMAGE_SIZE, default=0)
 
     def save(self, *args, **kwargs):
         if not self.title:

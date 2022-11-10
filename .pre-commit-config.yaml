@@ -4,32 +4,40 @@ repos:
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
+        exclude: ^src/main/migrations/
       - id: trailing-whitespace
+        exclude: ^src/main/migrations/
       - id: check-byte-order-marker
+        exclude: ^src/main/migrations/
   - repo: https://github.com/ambv/black
     rev: 22.8.0
     hooks:
       - id: black
+        exclude: ^src/main/migrations/
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.8.2
     hooks:
       - id: reorder-python-imports
+        exclude: ^src/main/migrations/
   - repo: https://gitlab.com/pycqa/flake8
     rev: "3.9.2"
     hooks:
       - id: flake8
         args: ["--config=src/setup.cfg"]
         language_version: python3
+        exclude: ^src/main/migrations/
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.971
     hooks:
       - id: mypy
         name: Run type checks
         args: ["--ignore-missing-imports", "--install-types", "--non-interactive"]
+        exclude: ^src/main/migrations/
   - repo: https://github.com/pycqa/pydocstyle
     rev: 6.1.1
     hooks:
       - id: pydocstyle
+        exclude: ^src/main/migrations/
   - repo: local
     hooks:
       - id: migrations-check

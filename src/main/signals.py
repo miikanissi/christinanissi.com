@@ -15,7 +15,8 @@ def content_image_compressor(sender, **kwargs):
                 new_width = int(width * resize_ratio)
                 new_height = int(height * resize_ratio)
                 image = image.resize((new_width, new_height))
-            image.save(kwargs["instance"].image.path, quality=80, optimize=True)
+            # image.save(kwargs["instance"].image.path, quality=80, optimize=True)
+            image.save(kwargs["instance"].image.path)
 
 
 post_save.connect(content_image_compressor, sender=ContentImage)

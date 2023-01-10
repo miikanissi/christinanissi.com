@@ -1,3 +1,5 @@
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from django import forms
 
 
@@ -23,6 +25,7 @@ class ContactForm(forms.Form):
         ),
         max_length=2000,
     )
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def clean(self):
         cleaned_data = super(ContactForm, self).clean()

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "taggit",
     "django_summernote",
+    "captcha",
     "widget_tweaks",
     "sorl.thumbnail",
     "main",
@@ -171,6 +172,9 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 # App settings
+RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY", default="")
+RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY", default="")
+RECAPTCHA_REQUIRED_SCORE = 0.75
 TAGGIT_CASE_INSENSITIVE = True
 SUMMERNOTE_CONFIG = {
     "iframe": True,

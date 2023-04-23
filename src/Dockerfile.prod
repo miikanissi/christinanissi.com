@@ -10,7 +10,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 # Install pip package dependencies
 RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev g++
+    && apk add postgresql-dev gcc python3-dev musl-dev g++ cargo
 
 # Install dependencies with poetry
 RUN pip install -U --pre pip poetry
